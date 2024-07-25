@@ -1,23 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dynamic Quote Generator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Quote Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        #quoteDisplay {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: center;
+        }
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px; /* Add space between buttons */
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: calc(100% - 24px); /* Adjust width for padding */
+        }
+        #importFile {
+            margin-top: 20px;
+        }
+        #quoteList {
+            list-style-type: none;
+            padding: 0;
+        }
+        #quoteList li {
+            background-color: #fff;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+    </style>
 </head>
 <body>
-  <h1>Dynamic Quote Generator</h1>
-  <div id="quoteDisplay"></div>
-  <button id="newQuote">Show New Quote</button>
-  
-  <div>
-    <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
-    <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
-    <button onclick="addQuote()">Add Quote</button>
-  </div>
-  
-  <ul id="quoteList"></ul>
+    <h1>Dynamic Quote Generator</h1>
+    <div id="quoteDisplay">Click "Show New Quote" to see a quote.</div>
+    <button id="newQuote">Show New Quote</button>
 
-  <script src="script.js"></script>
+    <!-- Form to add a new quote -->
+    <div>
+        <input id="newQuoteText" type="text" placeholder="Enter a new quote">
+        <input id="newQuoteCategory" type="text" placeholder="Enter quote category">
+        <button onclick="addQuote()">Add Quote</button>
+    </div>
+
+    <!-- Export and Import buttons -->
+    <button onclick="exportToJson()">Export Quotes</button>
+    <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
+
+    <!-- List to display all quotes -->
+    <ul id="quoteList"></ul>
+
+    <script src="script.js"></script>
 </body>
 </html>
