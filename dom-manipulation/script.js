@@ -10,8 +10,8 @@ const importFileInput = document.getElementById('importFile');
 const addQuoteButton = document.getElementById('addQuoteButton');
 
 // Initialize quotes and filter from local storage
-function initialize() {
-    fetchQuotesFromServer();
+async function initialize() {
+    await fetchQuotesFromServer();
     const storedQuotes = JSON.parse(localStorage.getItem('quotes') || '[]');
     quotes = storedQuotes;
     populateCategories();
@@ -35,18 +35,19 @@ function showRandomQuote() {
 }
 
 // Function to add a new quote
-function addQuote() {
+async function addQuote() {
     const newQuoteText = document.getElementById('newQuoteText').value.trim();
     const newQuoteCategory = document.getElementById('newQuoteCategory').value.trim();
     if (newQuoteText === '' || newQuoteCategory === '') {
         alert('Please enter both quote text and category.');
         return;
     }
-    quotes.push({ text: newQuoteText, category: newQuoteCategory });
+    const newQuote = { text: newQuoteText, category: newQuoteCategory };
+    quotes.push(newQuote);
     saveQuotes();
     populateCategories();
     showRandomQuote();
-    syncQuoteToServer({ text: newQuoteText, category: newQuoteCategory });
+    await syncQuoteToServer(newQuote);
     document.getElementById('newQuoteText').value = '';
     document.getElementById('newQuoteCategory').value = '';
 }
@@ -126,37 +127,30 @@ function applySavedFilter() {
 }
 
 // Simulate fetching quotes from a server
-function fetchQuotesFromServer() {
-    fetch('https://jsonplaceholder.typicode.com/posts', {
-        method: 'GET',
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Simulating server data format
-        const serverQuotes = data.slice(0, 5).map(post => ({
-            text: post.title,
-            category: 'Server'
-        }));
-        quotes = serverQuotes.concat(quotes);
-        saveQuotes();
-        populateCategories();
-        showRandomQuote();
-    });
+async function fetchQuotesFromServer() {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+    const data = await response.json();
+    const serverQuotes = data.slice(0, 5).map(post => ({
+        text: post.title,
+        category: 'Server'
+    }));
+    quotes = serverQuotes.concat(quotes);
+    saveQuotes();
+    populateCategories();
+    showRandomQuote();
 }
 
 // Simulate syncing a new quote to a server
-function syncQuoteToServer(quote) {
-    fetch('https://jsonplaceholder.typicode.com/posts', {
+async function syncQuoteToServer(quote) {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(quote)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Quote synced to server:', data);
     });
+    const data = await response.json();
+    console.log('Quote synced to server:', data);
 }
 
 // Event listeners
