@@ -36,10 +36,35 @@ const quotes = [
     });
   }
   
+  function createAddQuoteForm() {
+    const formDiv = document.createElement("div");
+  
+    const inputQuote = document.createElement("input");
+    inputQuote.id = "newQuoteText";
+    inputQuote.type = "text";
+    inputQuote.placeholder = "Enter a new quote";
+  
+    const inputCategory = document.createElement("input");
+    inputCategory.id = "newQuoteCategory";
+    inputCategory.type = "text";
+    inputCategory.placeholder = "Enter quote category";
+  
+    const addButton = document.createElement("button");
+    addButton.textContent = "Add Quote";
+    addButton.onclick = addQuote;
+  
+    formDiv.appendChild(inputQuote);
+    formDiv.appendChild(inputCategory);
+    formDiv.appendChild(addButton);
+  
+    document.body.appendChild(formDiv);
+  }
+  
   document.getElementById("newQuote").addEventListener("click", showRandomQuote);
   
   document.addEventListener("DOMContentLoaded", () => {
     showRandomQuote();
     updateQuoteList();
+    createAddQuoteForm();
   });
   
