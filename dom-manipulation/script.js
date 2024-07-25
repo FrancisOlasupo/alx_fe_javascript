@@ -153,6 +153,12 @@ async function syncQuoteToServer(quote) {
     console.log('Quote synced to server:', data);
 }
 
+// Function to sync quotes with the server
+async function syncQuotes() {
+    await fetchQuotesFromServer();
+    console.log('Quotes synced from server');
+}
+
 // Event listeners
 newQuoteButton.addEventListener('click', showRandomQuote);
 exportQuotesButton.addEventListener('click', exportQuotes);
