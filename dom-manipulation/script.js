@@ -1,36 +1,45 @@
-// Array of quote objects
 const quotes = [
-    { text: "The only limit to our realization of tomorrow is our doubts of today.", category: "Motivation" },
+    { text: "The greatest glory in living lies not in never falling, but in rising every time we fall.", category: "Inspirational" },
     { text: "Life is what happens when you're busy making other plans.", category: "Life" },
     { text: "Get busy living or get busy dying.", category: "Motivation" }
   ];
   
-  // Display a random quote
   function displayRandomQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     const quote = quotes[randomIndex];
-    const quoteDisplay = document.getElementById('quoteDisplay');
+    const quoteDisplay = document.getElementById("quoteDisplay");
     quoteDisplay.textContent = `"${quote.text}" - ${quote.category}`;
   }
   
-  // Add a new quote
   function addQuote() {
-    const newQuoteText = document.getElementById('newQuoteText').value.trim();
-    const newQuoteCategory = document.getElementById('newQuoteCategory').value.trim();
-    
+    const newQuoteText = document.getElementById("newQuoteText").value.trim();
+    const newQuoteCategory = document.getElementById("newQuoteCategory").value.trim();
+  
     if (newQuoteText && newQuoteCategory) {
-      quotes.push({ text: newQuoteText, category: newQuoteCategory });
-      document.getElementById('newQuoteText').value = '';
-      document.getElementById('newQuoteCategory').value = '';
-      alert('Quote added successfully!');
-      displayRandomQuote(); // Update display with a new random quote
+      const newQuote = { text: newQuoteText, category: newQuoteCategory };
+      quotes.push(newQuote);
+      updateQuoteList();
+      document.getElementById("newQuoteText").value = '';
+      document.getElementById("newQuoteCategory").value = '';
     } else {
-      alert('Please enter both quote and category.');
+      alert("Please enter both a quote and a category.");
     }
   }
   
-  // Event listener for showing a new quote
-  document.getElementById('newQuote').addEventListener('click', displayRandomQuote);
+  function updateQuoteList() {
+    const quoteList = document.getElementById("quoteList");
+    quoteList.innerHTML = '';
+    quotes.forEach(quote => {
+      const li = document.createElement("li");
+      li.textContent = `"${quote.text}" - ${quote.category}`;
+      quoteList.appendChild(li);
+    });
+  }
   
-  // Initial quote display
-  displayRandomQuote();  
+  document.getElementById("newQuote").addEventListener("click", displayRandomQuote);
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    displayRandomQuote();
+    updateQuoteList();
+  });
+  
