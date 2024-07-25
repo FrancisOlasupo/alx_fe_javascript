@@ -159,7 +159,7 @@ async function syncQuoteToServer(quote) {
 // Function to sync quotes with the server
 async function syncQuotes() {
     await fetchQuotesFromServer();
-    console.log('Quotes synced from server');
+    console.log('Quotes synced with server!');
 }
 
 // Event listeners
