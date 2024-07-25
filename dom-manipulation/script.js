@@ -8,6 +8,9 @@ const categoryFilter = document.getElementById('categoryFilter');
 const exportQuotesButton = document.getElementById('exportQuotes');
 const importFileInput = document.getElementById('importFile');
 
+// Mock server URL
+const serverUrl = 'https://jsonplaceholder.typicode.com/posts';
+
 // Initialize quotes and filter from local storage
 function initialize() {
     // Load quotes from local storage
@@ -16,6 +19,33 @@ function initialize() {
     populateCategories();
     applySavedFilter();
     showRandomQuote();
+    fetchQuotesFromServer(); // Fetch quotes from the server
+}
+
+// Function to fetch quotes from the server
+async function fetchQuotesFromServer() {
+    try {
+        const response = await fetch(serverUrl);
+        const serverQuotes = await response.json();
+        const newQuotes = serverQuotes.filter(sq => !quotes.some(lq => lq.text === sq.title));
+        
+        if (newQuotes.length > 0) {
+            quotes.push(...newQuotes.map(sq => ({ text: sq.title, category: 'Server' })));
+            saveQuotes();
+            populateCategories();
+            showNotification('New quotes added from server!');
+            showRandomQuote();
+        }
+    } catch (error) {
+        showNotification('Failed to sync with server.');
+    }
+}
+
+// Show notifications
+function showNotification(message) {
+    const notifications = document.getElementById('notifications');
+    notifications.textContent = message;
+    setTimeout(() => notifications.textContent = '', 3000);
 }
 
 // Function to show a random quote
