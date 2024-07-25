@@ -17,6 +17,9 @@ async function initialize() {
     populateCategories();
     applySavedFilter();
     showRandomQuote();
+
+    // Set interval for periodic syncing
+    setInterval(syncQuotes, 30000); // Sync every 30 seconds
 }
 
 // Function to show a random quote
