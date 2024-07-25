@@ -33,5 +33,4 @@ const quotes = [
   document.getElementById('newQuote').addEventListener('click', displayRandomQuote);
   
   // Initial quote display
-  displayRandomQuote();
-  
+  displayRandomQuote();  
